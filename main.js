@@ -43,34 +43,54 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const nodes = document.querySelectorAll('.node');
     const labels = document.querySelectorAll('.framework-labels span');
+    const stepRows = document.querySelectorAll('.framework-step-row');
+    const lines = document.querySelectorAll('.line');
     const descTitle = document.getElementById('desc-title');
     const descText = document.getElementById('desc-text');
+    const descBadge = document.getElementById('desc-badge');
     const descContainer = document.getElementById('framework-desc');
+    const stepOrder = ['comprender', 'escuchar', 'interpretar', 'disenar', 'activar'];
 
     function activateStep(stepName) {
         if(!descContainer) return;
         
-        // Remove active class from all
+        // Remove active class from all nodes, labels, rows
         nodes.forEach(n => n.classList.remove('active'));
         labels.forEach(l => l.classList.remove('active'));
+        stepRows.forEach(r => r.classList.remove('active'));
 
         // Add to targeted
         const targetNode = document.querySelector(`.node[data-step="${stepName}"]`);
         const targetLabel = document.querySelector(`.framework-labels span[data-step="${stepName}"]`);
+        const targetRow = document.querySelector(`.framework-step-row[data-step="${stepName}"]`);
         
         if (targetNode) targetNode.classList.add('active');
         if (targetLabel) targetLabel.classList.add('active');
+        if (targetRow) targetRow.classList.add('active');
 
-        // Update Text with simple fade animation
-        descContainer.style.opacity = '0';
+        // Highlight connector lines up to active step
+        const activeIndex = stepOrder.indexOf(stepName);
+        lines.forEach((line, i) => {
+            if (i < activeIndex) {
+                line.classList.add('active-line');
+            } else {
+                line.classList.remove('active-line');
+            }
+        });
+
+        // Strong fade-out → content swap → fade-in
+        descContainer.classList.remove('fade-in', 'is-active');
+        descContainer.classList.add('fade-out');
         
         setTimeout(() => {
-            if (descTitle && descText && frameworkData[stepName]) {
-                descTitle.textContent = frameworkData[stepName].title;
-                descText.textContent = frameworkData[stepName].text;
+            if (frameworkData[stepName]) {
+                if (descTitle) descTitle.textContent = frameworkData[stepName].title;
+                if (descText) descText.textContent = frameworkData[stepName].text;
+                if (descBadge) descBadge.textContent = activeIndex + 1;
             }
-            descContainer.style.opacity = '1';
-        }, 300);
+            descContainer.classList.remove('fade-out');
+            descContainer.classList.add('fade-in', 'is-active');
+        }, 320);
     }
 
     nodes.forEach(node => {
@@ -90,6 +110,16 @@ document.addEventListener('DOMContentLoaded', () => {
             activateStep(label.dataset.step);
         });
     });
+
+    // Mobile step rows (click only, no mouseenter on mobile)
+    stepRows.forEach(row => {
+        row.addEventListener('click', () => {
+            activateStep(row.dataset.step);
+        });
+    });
+
+    // Auto-activate first step on load
+    activateStep('comprender');
 
     // 3. Step Form Logic with WhatsApp Hybrid Notification
     const nextBtns = document.querySelectorAll('.next-btn');

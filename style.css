@@ -191,9 +191,9 @@ h1, h2, h3 { font-weight: 300; letter-spacing: -0.5px; }
 @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
 .hero-subtext {
-    font-size: 1.3rem;
+    font-size: 0.85rem;
     font-weight: 600;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
     text-transform: uppercase;
     color: var(--slate-gray);
     margin-top: 2rem;
@@ -203,6 +203,108 @@ h1, h2, h3 { font-weight: 300; letter-spacing: -0.5px; }
 
 .fade-in-up { animation: fadeInUp 1s ease 2.5s forwards; }
 @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+
+/* Manifesto Section */
+.manifesto-section {
+    background-color: var(--light-bg);
+    padding: 6rem 4rem;
+    overflow: hidden;
+    border-bottom: 1px solid #ebebeb;
+}
+
+.manifesto-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    align-items: center;
+    gap: 4rem;
+}
+
+.manifesto-eyebrow {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 2rem;
+}
+
+.manifesto-headline {
+    font-size: 3.8rem;
+    font-weight: 900;
+    letter-spacing: -2px;
+    line-height: 1.0;
+    color: var(--bg-black);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+}
+
+.manifesto-headline em {
+    font-style: italic;
+    font-weight: 300;
+    color: #555;
+    letter-spacing: -1px;
+}
+
+.manifesto-rule {
+    width: 48px;
+    height: 2px;
+    background: var(--bg-black);
+    margin-bottom: 1.5rem;
+}
+
+.manifesto-slogan {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.slogan-line {
+    font-size: 1.15rem;
+    font-weight: 300;
+    color: #777;
+    line-height: 1.4;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.slogan-line strong {
+    font-weight: 900;
+    color: var(--bg-black);
+    font-size: 1.25rem;
+    letter-spacing: -0.5px;
+}
+
+.slogan-dot {
+    display: block;
+    font-size: 2rem;
+    color: #ccc;
+    line-height: 1;
+    margin: 0.3rem 0;
+    font-weight: 900;
+}
+
+.manifesto-visual {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.manifesto-img {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    mix-blend-mode: multiply;
+    filter: contrast(1.05);
+    transition: transform 0.6s ease;
+}
+
+.manifesto-img:hover {
+    transform: scale(1.02);
+}
 
 /* Base Light Section */
 .light-section {
@@ -270,6 +372,10 @@ h1, h2, h3 { font-weight: 300; letter-spacing: -0.5px; }
     margin-top: 4rem;
 }
 
+/* Hide mobile-only elements on desktop */
+.mobile-step-label { display: none; }
+
+/* Desktop: horizontal nodes row */
 .framework-nodes {
     display: flex;
     align-items: center;
@@ -281,37 +387,53 @@ h1, h2, h3 { font-weight: 300; letter-spacing: -0.5px; }
 }
 
 .node {
-    width: 50px;
-    height: 50px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
-    background-color: #ffffff;
-    border: 2px solid #ccc;
-    color: var(--slate-gray);
+    background-color: #f0f0f0;
+    border: 2px solid #c8c8c8;
+    color: #888;
     display: flex;
     justify-content: center;
     align-items: center;
     font-weight: 700;
+    font-size: 1rem;
     cursor: pointer;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     z-index: 2;
+    flex-shrink: 0;
 }
 
-.node.active, .node:hover {
+.node:hover {
+    background-color: #3a3a3a;
+    color: var(--text-white);
+    border-color: #3a3a3a;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    transform: scale(1.12);
+}
+
+.node.active {
     background-color: var(--bg-black);
     color: var(--text-white);
     border-color: var(--bg-black);
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-    transform: scale(1.1);
+    box-shadow: 0 6px 28px rgba(0,0,0,0.3);
+    transform: scale(1.18);
 }
 
 .line {
     flex-grow: 1;
     height: 2px;
-    background-color: #e0e0e0;
+    background-color: #d8d8d8;
     z-index: 1;
-    margin: 0 -5px;
+    margin: 0 -4px;
+    transition: background-color 0.4s ease;
 }
 
+.line.active-line {
+    background-color: #555;
+}
+
+/* Desktop: horizontal labels row */
 .framework-labels {
     display: flex;
     width: 100%;
@@ -321,42 +443,96 @@ h1, h2, h3 { font-weight: 300; letter-spacing: -0.5px; }
 }
 
 .framework-labels span {
-    font-size: 0.85rem;
+    font-size: 0.78rem;
     text-transform: uppercase;
-    font-weight: 600;
-    letter-spacing: 1px;
-    color: #999;
-    transition: color 0.3s ease;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: #bbb;
+    transition: color 0.35s ease, transform 0.35s ease;
     cursor: pointer;
-    width: 50px;
+    width: 56px;
     text-align: center;
+    display: block;
 }
 
-.framework-labels span.active, .framework-labels span:hover {
+.framework-labels span:hover {
+    color: #444;
+    transform: translateY(-2px);
+}
+
+.framework-labels span.active {
     color: var(--bg-black);
+    transform: translateY(-2px);
 }
 
+/* Framework Card with strong transition */
 .glass-card {
     background: #ffffff;
-    border: 1px solid #eaeaea;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 12px 48px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04);
     padding: 3rem;
     text-align: center;
     max-width: 600px;
     width: 100%;
-    border-radius: 4px;
-    transition: all 0.3s ease;
+    border-radius: 6px;
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--bg-black);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s ease;
+}
+
+.glass-card.is-active::before {
+    transform: scaleX(1);
+}
+
+.glass-card.fade-out {
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.glass-card.fade-in {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .glass-card h3 {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     font-weight: 900;
-    margin-bottom: 1rem;
+    margin-bottom: 1.2rem;
     color: var(--bg-black);
+    letter-spacing: -0.5px;
 }
 .glass-card p {
-    color: var(--slate-gray);
-    font-size: 1.1rem;
+    color: #555;
+    font-size: 1.05rem;
+    line-height: 1.8;
+}
+
+/* Step number indicator inside card */
+.glass-card .step-badge {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--bg-black);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 28px;
+    text-align: center;
+    margin-bottom: 1rem;
 }
 
 /* 4. Proyectos - Viñetas */
@@ -547,7 +723,72 @@ h1, h2, h3 { font-weight: 300; letter-spacing: -0.5px; }
     .section-title { font-size: 2.5rem; }
     .masonry-grid, .partners-grid { grid-template-columns: 1fr; }
     .masonry-item:nth-child(1) { height: 300px; grid-row: auto; }
-    .framework-labels span { font-size: 0.65rem; }
     .hero-overlay { background: linear-gradient(to bottom, rgba(252,252,252,0.8) 0%, rgba(252,252,252,1) 100%); }
     .client-logo { max-height: 40px; margin: 0.5rem; }
+
+    /* Manifesto mobile */
+    .manifesto-section { padding: 4rem 1.5rem; }
+    .manifesto-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .manifesto-headline { font-size: 2.6rem; }
+    .manifesto-visual { order: 2; }
+    .manifesto-text { order: 1; }
+    /* ── Framework: vertical stack on mobile ── */
+    .framework-nodes {
+        flex-direction: column;
+        align-items: flex-start;
+        max-width: 100%;
+        gap: 0;
+        margin-bottom: 0;
+    }
+
+    /* Each step is a row: circle + label side by side */
+    .framework-step-row {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        width: 100%;
+        cursor: pointer;
+        padding: 0.6rem 0;
+    }
+
+    /* Show inline label on mobile */
+    .mobile-step-label {
+        display: block;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        color: #bbb;
+        transition: color 0.3s ease;
+    }
+
+    .framework-step-row.active .mobile-step-label {
+        color: var(--bg-black);
+    }
+
+    /* Vertical connector line between rows */
+    .line {
+        width: 2px;
+        height: 28px;
+        flex-grow: 0;
+        margin: 0 0 0 27px;
+    }
+
+    /* Hide the separate labels row on mobile */
+    .framework-labels {
+        display: none;
+    }
+
+    .framework-step-row .node {
+        flex-shrink: 0;
+    }
+
+    .framework-container {
+        margin-top: 2rem;
+    }
+
+    .glass-card {
+        margin-top: 2rem;
+        padding: 2rem 1.5rem;
+    }
 }
