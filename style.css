@@ -1,0 +1,553 @@
+/* Variables & Reset - LIGHT THEME INTEGRATED */
+:root {
+    --bg-black: #000000;
+    --text-white: #FFFFFF;
+    --slate-gray: #2C2C2C;
+    --light-bg: #FCFCFC;
+    --alt-bg: #F5FAF6; /* Off-white / pale green from images */
+    --text-dark: #1E1E1E;
+    --accent-color: #CC5500;
+    --nav-bg-transparent: rgba(252, 252, 252, 0.0);
+    --nav-bg-solid: rgba(255, 255, 255, 0.98);
+    
+    --font-text: 'Montserrat', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--light-bg);
+    color: var(--text-dark);
+    font-family: var(--font-text);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* Typography */
+h1, h2, h3 { font-weight: 300; letter-spacing: -0.5px; }
+
+.section-title {
+    font-size: 3.5rem;
+    font-weight: 900;
+    letter-spacing: -2px;
+    line-height: 0.9;
+    text-transform: uppercase;
+    color: var(--bg-black);
+    margin-bottom: 4rem;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 1px;
+    background-color: var(--slate-gray);
+}
+
+.text-center { text-align: center; }
+
+/* Navbar - Transparent to Solid White */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 4rem;
+    background: var(--nav-bg-transparent);
+    transition: all 0.4s ease;
+    z-index: 1000;
+}
+
+.navbar.scrolled {
+    background: var(--nav-bg-solid);
+    padding: 1rem 4rem;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+}
+
+.logo-wrapper {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    line-height: 1;
+}
+
+.logo-main {
+    font-family: var(--font-text);
+    font-size: 2.2rem;
+    font-weight: 900;
+    letter-spacing: -2px;
+    color: var(--bg-black);
+}
+
+.logo-sub {
+    font-family: var(--font-text);
+    font-size: 0.5rem;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-top: 3px;
+    letter-spacing: 0.5px;
+    color: var(--bg-black);
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 2.5rem;
+    align-items: center;
+}
+
+.nav-links a {
+    color: var(--bg-black);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover { color: var(--slate-gray); }
+
+/* Buttons */
+.btn-primary {
+    background-color: var(--bg-black);
+    color: var(--text-white) !important;
+    padding: 0.6rem 1.5rem;
+    border-radius: 2px;
+}
+.btn-primary:hover { background-color: var(--slate-gray); }
+
+.btn-primary-dark {
+    background: var(--bg-black);
+    color: var(--text-white);
+    border: none;
+    padding: 1rem 2rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1px;
+    font-size: 0.8rem;
+    transition: background 0.3s ease;
+}
+.btn-primary-dark:hover { background: var(--slate-gray); }
+
+/* 1. Hero */
+.hero {
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    background-image: url('assets/hero_bg_1776393526061.png');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    /* Hero should have a lighter overlay to fit the light theme *BUT* 
+       with a stark contrast for the black typewriter text */
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(252,252,252,0.6) 0%, rgba(252,252,252,1) 100%);
+    /* Transition perfectly into the Light layout */
+}
+
+.hero-content {
+    position: relative;
+    z-index: 10;
+    max-width: 900px;
+    padding: 0 2rem;
+}
+
+.typewriter-container {
+    font-size: 4.5rem;
+    font-weight: 900;
+    letter-spacing: -2px;
+    line-height: 1.1;
+    color: var(--bg-black);
+    min-height: 160px;
+}
+.cursor { animation: blink 1s infinite; color: var(--slate-gray); }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+.hero-subtext {
+    font-size: 1.3rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--slate-gray);
+    margin-top: 2rem;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.fade-in-up { animation: fadeInUp 1s ease 2.5s forwards; }
+@keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+
+/* Base Light Section */
+.light-section {
+    padding: 8rem 0;
+    background-color: var(--light-bg);
+    color: var(--text-dark);
+}
+.bg-gray {
+    background-color: var(--alt-bg);
+}
+
+/* 2. Servicios - Restored Cards Concept but LIGHT THEME */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2.5rem;
+}
+
+.service-card {
+    background: #ffffff;
+    border: 1px solid #eaeaeb;
+    padding: 3rem 2rem;
+    transition: all 0.4s ease;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+}
+
+.service-card:hover {
+    border-color: #d1d1d1;
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+}
+
+.service-card h3 {
+    font-size: 1.2rem;
+    font-weight: 900;
+    margin-bottom: 1.5rem;
+    color: var(--bg-black);
+}
+
+.card-line {
+    width: 30px;
+    height: 2px;
+    background-color: var(--bg-black);
+    margin-bottom: 1.5rem;
+    transition: width 0.3s ease;
+}
+
+.service-card:hover .card-line {
+    width: 60px;
+    background-color: var(--slate-gray);
+}
+
+.service-card p {
+    color: var(--slate-gray);
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+/* 3. LLYF Strategic Framework (Nodes interactive) - Restored in Light Mode */
+.framework-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 4rem;
+}
+
+.framework-nodes {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+    justify-content: space-between;
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.node {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    border: 2px solid #ccc;
+    color: var(--slate-gray);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 2;
+}
+
+.node.active, .node:hover {
+    background-color: var(--bg-black);
+    color: var(--text-white);
+    border-color: var(--bg-black);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    transform: scale(1.1);
+}
+
+.line {
+    flex-grow: 1;
+    height: 2px;
+    background-color: #e0e0e0;
+    z-index: 1;
+    margin: 0 -5px;
+}
+
+.framework-labels {
+    display: flex;
+    width: 100%;
+    max-width: 800px;
+    justify-content: space-between;
+    margin-bottom: 4rem;
+}
+
+.framework-labels span {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: #999;
+    transition: color 0.3s ease;
+    cursor: pointer;
+    width: 50px;
+    text-align: center;
+}
+
+.framework-labels span.active, .framework-labels span:hover {
+    color: var(--bg-black);
+}
+
+.glass-card {
+    background: #ffffff;
+    border: 1px solid #eaeaea;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+    padding: 3rem;
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.glass-card h3 {
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin-bottom: 1rem;
+    color: var(--bg-black);
+}
+.glass-card p {
+    color: var(--slate-gray);
+    font-size: 1.1rem;
+}
+
+/* 4. Proyectos - Viñetas */
+.projects-list ul {
+    list-style: none;
+    padding: 0;
+    max-width: 900px;
+    margin: 0 auto;
+}
+.projects-list li {
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+.projects-list li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--bg-black);
+    font-weight: bold;
+    font-size: 1.5rem;
+    line-height: 1.8;
+}
+
+/* Portfolio Masonry (Kept dark inside cards for wow-factor against light background) */
+.portfolio-section { padding: 0 0 8rem 0; background-color: var(--light-bg); }
+.masonry-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+.masonry-item {
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+    height: 400px;
+    background-size: cover;
+    background-position: center;
+}
+.masonry-item:nth-child(1) { grid-row: span 2; height: 81.5vh; }
+.item-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 60%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 2.5rem;
+    color: var(--text-white);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+.masonry-item:hover .item-overlay { opacity: 1; }
+.item-overlay h3 { font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; }
+.item-overlay p { font-size: 1.1rem; color: #ddd; }
+
+/* 5. Clientes */
+.clients-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;       /* Allows wrapping on smaller screens */
+    gap: 3rem 4rem;        /* 3rem vertical gap, 4rem horizontal gap */
+    padding: 3rem 0;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.client-logo {
+    max-height: 55px;      /* Consistent visual height for logos */
+    width: auto;
+    max-width: 200px;
+    mix-blend-mode: multiply;
+    transition: transform 0.3s ease, filter 0.3s ease;
+    filter: grayscale(100%) opacity(70%); /* Make them uniform dark grey by default */
+}
+
+.client-logo:hover {
+    transform: scale(1.05);
+    filter: grayscale(0%) opacity(100%); /* Restore full color and opacity on hover */
+}
+
+/* 6. Socios */
+.partners-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5rem;
+}
+.partner-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+.partner-img-wrapper {
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 1rem;
+}
+.bio-img {
+    width: 100%;
+    height: auto;
+    mix-blend-mode: multiply;
+    filter: grayscale(100%);
+    transition: filter 0.5s;
+}
+.partner-card:hover .bio-img { filter: grayscale(0%); }
+
+.partners-footer-text {
+    text-align: center;
+    margin-top: 4rem;
+    font-weight: 700;
+}
+
+/* 7. Contact Forms */
+.contact-wrapper {
+    max-width: 600px;
+    margin: 0 auto;
+}
+.contact-subtitle {
+    margin-bottom: 3rem;
+    color: var(--slate-gray);
+    font-size: 1.1rem;
+}
+.step-form {
+    background: #ffffff;
+    padding: 3.5rem;
+    border-radius: 4px;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.06);
+    border: 1px solid #f0f0f0;
+}
+.form-step { display: none; animation: fadeIn 0.4s ease; }
+.form-step.active { display: block; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+.form-group { margin-bottom: 2rem; }
+.form-group label { display: block; font-weight: 700; margin-bottom: 0.8rem; color: var(--bg-black); }
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 1.2rem;
+    border: 1px solid #ddd;
+    background: #fdfdfd;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+.form-group input:focus, .form-group select:focus {
+    outline: none;
+    border-color: var(--bg-black);
+    background: #fff;
+}
+.select-wrapper { position: relative; }
+.select-wrapper::after { content: '▼'; font-size: 0.8rem; position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); pointer-events: none; }
+.form-group select { appearance: none; -webkit-appearance: none; }
+.radio-group { display: flex; flex-direction: column; gap: 1rem; }
+.radio-label {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    background: #fdfdfd;
+    transition: all 0.3s ease;
+}
+.radio-label:hover { border-color: var(--bg-black); }
+.radio-label input[type="radio"] { accent-color: var(--bg-black); width: 18px; height: 18px; }
+
+.btn-group { display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; }
+.btn-secondary { background: none; border: none; cursor: pointer; color: var(--slate-gray); font-weight: 700; }
+
+/* Footer */
+.footer {
+    background: var(--bg-black);
+    color: #fff;
+    padding: 4rem 0 2rem;
+    text-align: center;
+}
+.footer p { color: rgba(255,255,255,0.5); font-size: 0.85rem; margin-top: 2rem; }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .nav-links { display: none; }
+    .typewriter-container { font-size: 3rem; min-height: 120px; }
+    .section-title { font-size: 2.5rem; }
+    .masonry-grid, .partners-grid { grid-template-columns: 1fr; }
+    .masonry-item:nth-child(1) { height: 300px; grid-row: auto; }
+    .framework-labels span { font-size: 0.65rem; }
+    .hero-overlay { background: linear-gradient(to bottom, rgba(252,252,252,0.8) 0%, rgba(252,252,252,1) 100%); }
+    .client-logo { max-height: 40px; margin: 0.5rem; }
+}
