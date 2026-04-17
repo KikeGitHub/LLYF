@@ -290,20 +290,25 @@ h1, h2, h3 { font-weight: 300; letter-spacing: -0.5px; }
     position: relative;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
+    overflow: hidden;
 }
 
 .manifesto-img {
-    width: 100%;
-    max-width: 600px;
+    width: 115%;
+    max-width: none;
     height: auto;
     mix-blend-mode: multiply;
-    filter: contrast(1.05);
-    transition: transform 0.6s ease;
+    filter: contrast(1.05) brightness(1.02);
+    transition: transform 0.7s ease;
+    /* Shift right to hide the embedded text in the top-left of the original image */
+    margin-left: -15%;
+    object-fit: cover;
+    object-position: right center;
 }
 
 .manifesto-img:hover {
-    transform: scale(1.02);
+    transform: scale(1.03) translateX(-8px);
 }
 
 /* Base Light Section */
@@ -316,52 +321,170 @@ h1, h2, h3 { font-weight: 300; letter-spacing: -0.5px; }
     background-color: var(--alt-bg);
 }
 
-/* 2. Servicios - Restored Cards Concept but LIGHT THEME */
+/* 2. Services — Flip Cards */
 .services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
 }
 
-.service-card {
-    background: #ffffff;
-    border: 1px solid #eaeaeb;
-    padding: 3rem 2rem;
-    transition: all 0.4s ease;
+/* ── Flip Card Wrapper ── */
+.flip-card {
+    perspective: 1200px;
+    height: 280px;
+    cursor: pointer;
+}
+
+/* ── Inner rotating element ── */
+.flip-card-inner {
     position: relative;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
 }
 
-.service-card:hover {
-    border-color: #d1d1d1;
-    transform: translateY(-5px);
-    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+.flip-card.flipped .flip-card-inner {
+    transform: rotateY(180deg);
 }
 
-.service-card h3 {
-    font-size: 1.2rem;
+/* ── Both faces share base ── */
+.flip-card-front,
+.flip-card-back {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 2rem;
+    overflow: hidden;
+}
+
+/* ── FRONT face — white ── */
+.flip-card-front {
+    background: #ffffff;
+    border: 1px solid #e8e8e8;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    transform: rotateY(0deg);
+}
+
+.card-number {
+    font-size: 0.65rem;
     font-weight: 900;
-    margin-bottom: 1.5rem;
-    color: var(--bg-black);
+    letter-spacing: 3px;
+    color: #ddd;
+    align-self: flex-end;
+    transition: color 0.3s ease;
 }
 
-.card-line {
-    width: 30px;
-    height: 2px;
-    background-color: var(--bg-black);
-    margin-bottom: 1.5rem;
-    transition: width 0.3s ease;
-}
+.flip-card:hover .card-number { color: #bbb; }
 
-.service-card:hover .card-line {
-    width: 60px;
-    background-color: var(--slate-gray);
-}
-
-.service-card p {
-    color: var(--slate-gray);
+.flip-card-front h3 {
     font-size: 1rem;
-    line-height: 1.7;
+    font-weight: 900;
+    color: var(--bg-black);
+    letter-spacing: 0;
+    line-height: 1.3;
+    text-align: center;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0.5rem 0;
+}
+
+/* ── Flip trigger button ── */
+.flip-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: var(--bg-black);
+    color: var(--text-white);
+    border: none;
+    padding: 0.6rem 1.4rem;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border-radius: 2px;
+    transition: background 0.3s ease, transform 0.2s ease;
+    align-self: center;
+    width: 100%;
+    max-width: 180px;
+}
+
+.flip-btn:hover {
+    background: #222;
+    transform: translateY(-1px);
+}
+
+.flip-btn-icon {
+    font-size: 1.1rem;
+    font-weight: 300;
+    line-height: 1;
+    transition: transform 0.4s ease;
+}
+
+.flip-card.flipped .flip-btn-icon { transform: rotate(45deg); }
+
+/* ── BACK face — black ── */
+.flip-card-back {
+    background: var(--bg-black);
+    transform: rotateY(180deg);
+    padding: 1.75rem 2rem;
+    justify-content: flex-start;
+    gap: 0.8rem;
+}
+
+.back-number {
+    color: rgba(255,255,255,0.15);
+}
+
+.flip-card-back h4 {
+    font-size: 0.75rem;
+    font-weight: 900;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    line-height: 1.4;
+    margin-top: 0.25rem;
+}
+
+.flip-card-back p {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.88);
+    line-height: 1.75;
+    flex: 1;
+    margin: 0;
+}
+
+/* ── Back return button ── */
+.flip-back-btn {
+    background: none;
+    border: 1px solid rgba(255,255,255,0.25);
+    color: rgba(255,255,255,0.7);
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    align-self: flex-start;
+}
+
+.flip-back-btn:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.5);
+    color: #fff;
 }
 
 /* 3. LLYF Strategic Framework (Nodes interactive) - Restored in Light Mode */
@@ -374,6 +497,34 @@ h1, h2, h3 { font-weight: 300; letter-spacing: -0.5px; }
 
 /* Hide mobile-only elements on desktop */
 .mobile-step-label { display: none; }
+
+/* Inline step panels — hidden on desktop, accordion on mobile */
+.step-panel {
+    display: none; /* hidden on desktop */
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.35s ease;
+    opacity: 0;
+}
+
+.step-panel.open {
+    max-height: 200px;
+    opacity: 1;
+}
+
+.step-panel-inner {
+    padding: 0.8rem 0 0.8rem 4.5rem; /* indented under the circle */
+    border-left: 2px solid var(--bg-black);
+    margin-left: 27px; /* align with center of 56px node */
+}
+
+.step-panel-inner p {
+    font-size: 0.9rem;
+    color: #555;
+    line-height: 1.7;
+    font-weight: 400;
+}
 
 /* Desktop: horizontal nodes row */
 .framework-nodes {
@@ -716,23 +867,87 @@ h1, h2, h3 { font-weight: 300; letter-spacing: -0.5px; }
 }
 .footer p { color: rgba(255,255,255,0.5); font-size: 0.85rem; margin-top: 2rem; }
 
-/* Responsive adjustments */
+/* =============================================
+   MOBILE FIRST — Complete Responsive Audit
+   ============================================= */
 @media (max-width: 768px) {
-    .nav-links { display: none; }
-    .typewriter-container { font-size: 3rem; min-height: 120px; }
-    .section-title { font-size: 2.5rem; }
-    .masonry-grid, .partners-grid { grid-template-columns: 1fr; }
-    .masonry-item:nth-child(1) { height: 300px; grid-row: auto; }
-    .hero-overlay { background: linear-gradient(to bottom, rgba(252,252,252,0.8) 0%, rgba(252,252,252,1) 100%); }
-    .client-logo { max-height: 40px; margin: 0.5rem; }
 
-    /* Manifesto mobile */
-    .manifesto-section { padding: 4rem 1.5rem; }
-    .manifesto-inner { grid-template-columns: 1fr; gap: 2rem; }
-    .manifesto-headline { font-size: 2.6rem; }
-    .manifesto-visual { order: 2; }
+    /* ── Global ── */
+    .container { padding: 0 1.25rem; }
+    .section-title {
+        font-size: 2rem;
+        letter-spacing: -1px;
+        margin-bottom: 2.5rem;
+    }
+    .light-section { padding: 4rem 0; }
+
+    /* ── Navbar ── */
+    .navbar { padding: 1rem 1.25rem; }
+    .navbar.scrolled { padding: 0.75rem 1.25rem; }
+    .nav-links { display: none; }
+
+    /* ── Hero ── */
+    .hero { background-position: 70% center; }
+    .hero-overlay {
+        background: linear-gradient(to bottom, rgba(252,252,252,0.75) 0%, rgba(252,252,252,1) 100%);
+    }
+    .typewriter-container {
+        font-size: 2.4rem;
+        min-height: 100px;
+        letter-spacing: -1px;
+        line-height: 1.15;
+    }
+    .hero-content { padding: 0 1.25rem; }
+    .hero-subtext {
+        font-size: 0.65rem;
+        letter-spacing: 1.5px;
+        margin-top: 1.5rem;
+    }
+
+    /* ── Manifesto ── */
+    .manifesto-section {
+        padding: 3rem 1.25rem;
+    }
+    .manifesto-inner {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+    /* Image FIRST on mobile — visual impact before text */
+    .manifesto-visual {
+        order: -1;
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 0.5rem;
+        overflow: visible;
+    }
+    .manifesto-img {
+        width: 100%;
+        max-width: 100%;
+        margin-left: 0;
+        object-position: center center;
+    }
     .manifesto-text { order: 1; }
-    /* ── Framework: vertical stack on mobile ── */
+    .manifesto-headline {
+        font-size: 2.2rem;
+        letter-spacing: -1.5px;
+        margin-bottom: 1.5rem;
+    }
+    .manifesto-eyebrow { margin-bottom: 1rem; }
+    .slogan-line { font-size: 1rem; }
+    .slogan-line strong { font-size: 1.1rem; }
+
+    /* ── Services ── */
+    .services-grid {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+    .flip-card { height: 300px; }
+    .flip-card-front h3 { font-size: 0.95rem; }
+    .flip-card-back p { font-size: 0.92rem; }
+
+
+    /* ── Framework ── */
+    .framework-container { margin-top: 1.5rem; }
     .framework-nodes {
         flex-direction: column;
         align-items: flex-start;
@@ -740,55 +955,80 @@ h1, h2, h3 { font-weight: 300; letter-spacing: -0.5px; }
         gap: 0;
         margin-bottom: 0;
     }
-
-    /* Each step is a row: circle + label side by side */
     .framework-step-row {
         display: flex;
         align-items: center;
         gap: 1rem;
         width: 100%;
         cursor: pointer;
-        padding: 0.6rem 0;
+        padding: 0.5rem 0;
     }
-
-    /* Show inline label on mobile */
+    .framework-step-row .node { flex-shrink: 0; }
     .mobile-step-label {
         display: block;
-        font-size: 0.8rem;
+        font-size: 0.78rem;
         text-transform: uppercase;
         font-weight: 700;
         letter-spacing: 1.5px;
         color: #bbb;
         transition: color 0.3s ease;
     }
-
-    .framework-step-row.active .mobile-step-label {
-        color: var(--bg-black);
-    }
-
-    /* Vertical connector line between rows */
+    .framework-step-row.active .mobile-step-label { color: var(--bg-black); }
     .line {
         width: 2px;
-        height: 28px;
+        height: 18px;
         flex-grow: 0;
         margin: 0 0 0 27px;
     }
-
-    /* Hide the separate labels row on mobile */
-    .framework-labels {
-        display: none;
+    .framework-labels { display: none; }
+    .step-panel { display: block; width: 100%; }
+    .glass-card { display: none; }
+    .framework-step-row::after {
+        content: '›';
+        margin-left: auto;
+        font-size: 1.4rem;
+        color: #ccc;
+        transition: transform 0.3s ease, color 0.3s ease;
+        padding-right: 0.25rem;
+    }
+    .framework-step-row.active::after {
+        transform: rotate(90deg);
+        color: var(--bg-black);
     }
 
-    .framework-step-row .node {
-        flex-shrink: 0;
-    }
+    /* ── Portfolio / Masonry ── */
+    .portfolio-section { padding: 0 0 4rem 0; }
+    .masonry-grid { grid-template-columns: 1fr; gap: 0.75rem; }
+    .masonry-item { height: 220px; border-radius: 2px; }
+    .masonry-item:nth-child(1) { height: 280px; grid-row: auto; }
+    .item-overlay { opacity: 1; background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 50%); }
+    .item-overlay h3 { font-size: 1.3rem; }
+    .item-overlay p { font-size: 0.9rem; }
 
-    .framework-container {
-        margin-top: 2rem;
-    }
+    /* ── Clients ── */
+    .clients-wrapper { gap: 2rem 2.5rem; padding: 2rem 0; }
+    .client-logo { max-height: 36px; }
 
-    .glass-card {
-        margin-top: 2rem;
-        padding: 2rem 1.5rem;
-    }
+    /* ── Partners ── */
+    .partners-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .partner-img-wrapper { max-width: 220px; }
+
+    /* ── Contact Form ── */
+    .contact-section.light-section { padding: 3rem 0; }
+    .step-form { padding: 2rem 1.25rem; }
+    .form-group input,
+    .form-group select { padding: 1rem; font-size: 0.95rem; }
+    .btn-primary-dark { width: 100%; text-align: center; padding: 1rem; }
+    .btn-group { flex-direction: column-reverse; gap: 1rem; align-items: stretch; }
+    .btn-secondary { text-align: center; }
+
+    /* ── Footer ── */
+    .footer { padding: 3rem 1.25rem 2rem; }
+}
+
+/* Extra small screens */
+@media (max-width: 390px) {
+    .typewriter-container { font-size: 2rem; }
+    .manifesto-headline { font-size: 1.9rem; }
+    .section-title { font-size: 1.8rem; }
 }

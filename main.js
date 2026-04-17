@@ -52,14 +52,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const stepOrder = ['comprender', 'escuchar', 'interpretar', 'disenar', 'activar'];
 
     function activateStep(stepName) {
-        if(!descContainer) return;
-        
+        const isMobile = window.innerWidth <= 768;
+
         // Remove active class from all nodes, labels, rows
         nodes.forEach(n => n.classList.remove('active'));
         labels.forEach(l => l.classList.remove('active'));
         stepRows.forEach(r => r.classList.remove('active'));
 
-        // Add to targeted
+        // Add active to targeted
         const targetNode = document.querySelector(`.node[data-step="${stepName}"]`);
         const targetLabel = document.querySelector(`.framework-labels span[data-step="${stepName}"]`);
         const targetRow = document.querySelector(`.framework-step-row[data-step="${stepName}"]`);
@@ -78,7 +78,21 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Strong fade-out → content swap → fade-in
+        // ── MOBILE: accordion inline panels ──
+        const allPanels = document.querySelectorAll('.step-panel');
+        const targetPanel = document.querySelector(`.step-panel[data-panel="${stepName}"]`);
+
+        if (isMobile) {
+            allPanels.forEach(panel => panel.classList.remove('open'));
+            if (targetPanel) {
+                // If same step tapped again — toggle off is handled by row click logic
+                targetPanel.classList.add('open');
+            }
+            return; // don't update the desktop card on mobile
+        }
+
+        // ── DESKTOP: fade card ──
+        if (!descContainer) return;
         descContainer.classList.remove('fade-in', 'is-active');
         descContainer.classList.add('fade-out');
         
@@ -200,7 +214,30 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Navbar scroll effect
+    // ── Flip Cards ──
+    const flipCards = document.querySelectorAll('.flip-card');
+
+    flipCards.forEach(card => {
+        const flipBtn = card.querySelector('.flip-btn');
+        const backBtn = card.querySelector('.flip-back-btn');
+
+        // Clicking the "Conocer más" button flips the card
+        if (flipBtn) {
+            flipBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                card.classList.add('flipped');
+            });
+        }
+
+        // Clicking "← Volver" unflips the card
+        if (backBtn) {
+            backBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                card.classList.remove('flipped');
+            });
+        }
+    });
+
     window.addEventListener('scroll', () => {
         const nav = document.querySelector('.navbar');
         // In the updated light theme, the navbar starts transparent 
